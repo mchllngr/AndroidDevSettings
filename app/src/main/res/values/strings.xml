@@ -2,6 +2,5 @@
 <resources>
 
     <string name="app_name">DevSettings</string>
-    <string name="dev_settings_enabled">DevSettings enabled</string>
 
 </resources>

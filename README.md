@@ -1,6 +1,6 @@
 # AndroidDevSettings
 
-Simple application for enabling and disabling a complete set of developer settings.
+Simple application for enabling and disabling a complete set of developer settings with a single click inside the app or on the quicktile (Android N only).
 
 Note that this app requires you to **manually grant permission** to allow the app to alter the animator duration setting. To do this, issue the following `adb` command:
 

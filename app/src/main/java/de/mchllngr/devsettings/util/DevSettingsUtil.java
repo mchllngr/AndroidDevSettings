@@ -18,6 +18,7 @@ public class DevSettingsUtil {
     /**
      * Enables or disables the DevSettings.
      */
+    // TODO return boolean to check if settings were set
     public static void setDevSettings(final Context context, boolean enabled) {
         try {
             if (enabled)

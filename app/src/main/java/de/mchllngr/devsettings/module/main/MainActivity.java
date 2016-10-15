@@ -2,8 +2,9 @@ package de.mchllngr.devsettings.module.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.SwitchCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +25,15 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     /**
-     * {@link SwitchCompat} for setting the DevSettings.
+     * {@link ImageView} for setting the DevSettings.
      */
     @BindView(R.id.dev_settings)
-    SwitchCompat devSettingSwitch;
+    ImageView devSettings;
+
+    /**
+     * Saves the current status of the DevSettings.
+     */
+    private boolean devSettingsEnabled = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,13 +42,24 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        devSettingSwitch.setOnCheckedChangeListener((view, checked) -> DevSettingsUtil.setDevSettings(this, checked));
+        devSettings.setOnClickListener((view) -> {
+            DevSettingsUtil.setDevSettings(this, !devSettingsEnabled);
+            setDevSettingsEnabled(!devSettingsEnabled);
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        devSettingSwitch.setChecked(DevSettingsUtil.getDevSettingsEnabled(this));
+        setDevSettingsEnabled(DevSettingsUtil.getDevSettingsEnabled(this));
+    }
+
+    private void setDevSettingsEnabled(boolean enabled) {
+        devSettingsEnabled = enabled;
+        devSettings.setColorFilter(ContextCompat.getColor(
+                this,
+                devSettingsEnabled ? R.color.colorPrimary : android.R.color.darker_gray
+        ));
     }
 }

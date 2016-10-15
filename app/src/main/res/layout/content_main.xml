@@ -12,18 +12,10 @@
                 tools:context="de.mchllngr.devsettings.module.main.MainActivity"
                 tools:showIn="@layout/activity_main">
 
-    <TextView
+    <ImageView
+        android:id="@+id/dev_settings"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/dev_settings"
-        android:layout_toStartOf="@id/dev_settings"
-        android:text="@string/dev_settings_enabled"/>
-
-    <android.support.v7.widget.SwitchCompat
-        android:id="@id/dev_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/ic_developer_mode_white_24dp"/>
 
 </RelativeLayout>
