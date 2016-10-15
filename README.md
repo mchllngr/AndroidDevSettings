@@ -8,6 +8,9 @@ Note that this app requires you to **manually grant permission** to allow the ap
 
 Inspired by: https://github.com/nickbutcher/AnimatorDurationTile
 
+# TODO
+- add widget for devices with older android versions
+
 # License
 
 ```

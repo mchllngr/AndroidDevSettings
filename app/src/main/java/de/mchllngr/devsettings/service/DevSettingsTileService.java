@@ -6,10 +6,8 @@ import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
-import android.util.Log;
 
 import de.mchllngr.devsettings.util.DevSettingsUtil;
-import timber.log.Timber;
 
 /**
  * A {@link TileService} for setting the DevSettings.
@@ -39,17 +37,19 @@ public class DevSettingsTileService extends TileService {
     public void onClick() {
         super.onClick();
 
-        Tile tile = getQsTile();
-        switch (tile.getState()) {
-            case Tile.STATE_ACTIVE:
-                DevSettingsUtil.setDevSettings(getApplicationContext(), false);
-                updateTileState(Tile.STATE_INACTIVE);
-                break;
-            case Tile.STATE_INACTIVE:
-                DevSettingsUtil.setDevSettings(getApplicationContext(), true);
-                updateTileState(Tile.STATE_ACTIVE);
-                break;
-        }
+        unlockAndRun(() -> {
+            Tile tile = getQsTile();
+            switch (tile.getState()) {
+                case Tile.STATE_ACTIVE:
+                    if (DevSettingsUtil.setDevSettings(getApplicationContext(), false))
+                        updateTileState(Tile.STATE_INACTIVE);
+                    break;
+                case Tile.STATE_INACTIVE:
+                    if (DevSettingsUtil.setDevSettings(getApplicationContext(), true))
+                        updateTileState(Tile.STATE_ACTIVE);
+                    break;
+            }
+        });
     }
 
     /**
