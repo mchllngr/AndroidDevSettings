@@ -8,8 +8,6 @@ import de.mchllngr.devsettings.R;
 
 /**
  * Base-class for work concerning every {@link android.app.Activity}.
- *
- * @author Michael Langer <a href="https://github.com/mchllngr" target="_blank">(GitHub)</a>
  */
 public abstract class BaseActivity extends DebugBaseActivity {
 
