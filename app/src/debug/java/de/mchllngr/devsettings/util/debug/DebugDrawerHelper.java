@@ -22,8 +22,6 @@ import jp.wasabeef.takt.Takt;
 
 /**
  * Helper-class for easier use with {@link DebugDrawer}.
- *
- * @author Michael Langer (<a href="https://github.com/mchllngr" target="_blank">GitHub</a>)
  */
 public class DebugDrawerHelper {
 

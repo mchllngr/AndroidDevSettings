@@ -6,8 +6,6 @@ import timber.log.Timber;
 
 /**
  * {@link timber.log.Timber.Tree} for choosing what should be printed to the {@link Log}.
- *
- * @author Michael Langer (<a href="https://github.com/mchllngr" target="_blank">GitHub</a>)
  */
 public class ReleaseTree extends Timber.Tree {
 

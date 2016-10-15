@@ -22,8 +22,6 @@ import de.mchllngr.devsettings.util.DevSettingsUtil;
  * <code>adb</code> command to use.
  * <p>
  * <code>adb shell pm grant de.mchllngr.devsettings[.debug] android.permission.WRITE_SECURE_SETTINGS</code>
- *
- * @author Michael Langer (<a href="https://github.com/mchllngr" target="_blank">GitHub</a>)
  */
 public class MainActivity extends BaseActivity {
 

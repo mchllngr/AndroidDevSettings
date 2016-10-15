@@ -7,8 +7,6 @@ import timber.log.Timber;
 
 /**
  * Base-class used for initialising {@link Timber}.
- *
- * @author Michael Langer (<a href="https://github.com/mchllngr" target="_blank">GitHub</a>)
  */
 public class BaseApp extends Application {
 
