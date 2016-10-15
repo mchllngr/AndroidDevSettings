@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION
+
+    dexOptions {
+        maxProcessCount 4
+        javaMaxHeapSize "3g"
+    }
+
+    defaultConfig {
+        applicationId "de.mchllngr.devsettings"
+        minSdkVersion rootProject.ext.MIN_SDK_VERSION
+        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION
+        versionCode rootProject.ext.VERSIONCODE
+        versionName rootProject.ext.VERSIONAME
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        jackOptions {
+            enabled true
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+    }
+
+    // Always show the result of every unit test, even if it passes.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile "com.android.support:appcompat-v7:$rootProject.ext.SUPPORT_VERSION"
+    compile "com.android.support:design:$rootProject.ext.SUPPORT_VERSION"
+
+    compile "com.jakewharton:butterknife:$rootProject.ext.BUTTERKNIFE_VERSION"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.BUTTERKNIFE_VERSION"
+
+    compile "com.jakewharton.timber:timber:$rootProject.ext.TIMBER_VERSION"
+
+    debugCompile "com.facebook.stetho:stetho:$rootProject.ext.STETHO_VERSION"
+
+    debugCompile "io.palaima.debugdrawer:debugdrawer:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugCompile "io.palaima.debugdrawer:debugdrawer-commons:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugCompile "io.palaima.debugdrawer:debugdrawer-actions:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugCompile "io.palaima.debugdrawer:debugdrawer-scalpel:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugCompile "io.palaima.debugdrawer:debugdrawer-fps:$rootProject.ext.DEBUGDRAWER_VERSION"
+    // Used by DebugDrawer
+    debugCompile "com.jakewharton.scalpel:scalpel:$rootProject.ext.SCALPEL_VERSION"
+    debugCompile "jp.wasabeef:takt:$rootProject.ext.TAKT_VERSION"
+
+    testCompile "junit:junit:$rootProject.ext.JUNIT_VERSION"
+    testCompile "org.mockito:mockito-core:$rootProject.ext.MOCKITO_VERSION"
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.ESPRESSO_VERSION", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}

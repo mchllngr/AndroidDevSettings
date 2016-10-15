@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="debug_night_mode_select" translatable="false">Select NightMode</string>
+    <string name="debug_night_mode_yes" translatable="false">Nightmode: Yes</string>
+    <string name="debug_night_mode_no" translatable="false">Nightmode: No</string>
+    <string name="debug_night_mode_auto" translatable="false">Nightmode: Auto</string>
+    <string name="debug_night_mode_follow_system" translatable="false">Nightmode: Follow system</string>
+	
+</resources>
