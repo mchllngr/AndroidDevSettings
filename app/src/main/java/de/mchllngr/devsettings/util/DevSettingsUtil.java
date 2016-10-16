@@ -60,22 +60,19 @@ public class DevSettingsUtil {
     private static void enableDevSettings(Context context) throws SecurityException {
         /**
          * TODO not found yet
-         * - dont keep activities
          * - strict mode (add ?)
          */
 
         ContentResolver cr = context.getContentResolver();
 
-        putSetting(cr, Settings.Global.STAY_ON_WHILE_PLUGGED_IN,
-                BatteryManager.BATTERY_PLUGGED_AC |
-                        BatteryManager.BATTERY_PLUGGED_USB |
-                        BatteryManager.BATTERY_PLUGGED_WIRELESS);
+        int stayOnWhilePluggedInValue = BatteryManager.BATTERY_PLUGGED_AC | BatteryManager.BATTERY_PLUGGED_USB | BatteryManager.BATTERY_PLUGGED_WIRELESS;
+        putSetting(cr, Settings.Global.STAY_ON_WHILE_PLUGGED_IN, stayOnWhilePluggedInValue);
         putSetting(cr, Settings.Global.ADB_ENABLED, 1);
-
-        // TODO put animations in an extra tile/setting (or show picker ?)
+        // TODO put animations in an extra tile/setting (or in a pickerDialog ?)
         putSetting(cr, Settings.Global.WINDOW_ANIMATION_SCALE, 0F);
         putSetting(cr, Settings.Global.TRANSITION_ANIMATION_SCALE, 0F);
         putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 0F);
+        putSetting(cr, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 1);
     }
 
     /**
@@ -89,6 +86,7 @@ public class DevSettingsUtil {
         putSetting(cr, Settings.Global.WINDOW_ANIMATION_SCALE, 1F);
         putSetting(cr, Settings.Global.TRANSITION_ANIMATION_SCALE, 1F);
         putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 1F);
+        putSetting(cr, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 0);
     }
 
     /**
