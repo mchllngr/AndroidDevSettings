@@ -75,6 +75,7 @@ dependencies {
 
     compile "com.android.support:appcompat-v7:$rootProject.ext.SUPPORT_VERSION"
     compile "com.android.support:design:$rootProject.ext.SUPPORT_VERSION"
+    compile "com.android.support:percent:$rootProject.ext.SUPPORT_VERSION"
 
     compile "com.jakewharton:butterknife:$rootProject.ext.BUTTERKNIFE_VERSION"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.BUTTERKNIFE_VERSION"

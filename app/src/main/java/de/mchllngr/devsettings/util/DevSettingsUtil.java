@@ -73,6 +73,8 @@ public class DevSettingsUtil {
         putSetting(cr, Settings.Global.TRANSITION_ANIMATION_SCALE, 0F);
         putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 0F);
         putSetting(cr, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 1);
+
+        DevSettingsNotificationUtil.showNotification(context);
     }
 
     /**
@@ -87,6 +89,8 @@ public class DevSettingsUtil {
         putSetting(cr, Settings.Global.TRANSITION_ANIMATION_SCALE, 1F);
         putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 1F);
         putSetting(cr, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 0);
+
+        DevSettingsNotificationUtil.hideNotification(context);
     }
 
     /**
