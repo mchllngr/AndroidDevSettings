@@ -81,6 +81,8 @@ dependencies {
 
     compile "com.jakewharton.timber:timber:$rootProject.ext.TIMBER_VERSION"
 
+    compile "io.mattcarroll.hover:hover:$rootProject.ext.HOVER_VERSION"
+
     debugCompile "com.facebook.stetho:stetho:$rootProject.ext.STETHO_VERSION"
 
     debugCompile "io.palaima.debugdrawer:debugdrawer:$rootProject.ext.DEBUGDRAWER_VERSION"

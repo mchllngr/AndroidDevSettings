@@ -6,6 +6,7 @@ import android.os.BatteryManager;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import de.mchllngr.devsettings.hover.DevSettingsHoverMenuService;
 import timber.log.Timber;
 
 /**
@@ -73,6 +74,8 @@ public class DevSettingsUtil {
         putSetting(cr, Settings.Global.TRANSITION_ANIMATION_SCALE, 0F);
         putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 0F);
         putSetting(cr, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 1);
+
+        DevSettingsHoverMenuService.showFloatingMenu(context);
     }
 
     /**
@@ -87,6 +90,8 @@ public class DevSettingsUtil {
         putSetting(cr, Settings.Global.TRANSITION_ANIMATION_SCALE, 1F);
         putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 1F);
         putSetting(cr, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 0);
+
+        DevSettingsHoverMenuService.hideFloatingMenu(context);
     }
 
     /**
