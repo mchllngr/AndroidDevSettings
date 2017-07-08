@@ -44,6 +44,6 @@ public class DevSettingsHoverMenuService extends HoverMenuService {
 
     @NonNull
     private HoverMenu createHoverMenu() {
-        return new MultiSectionHoverMenu(getApplicationContext());
+        return new DevSettingsHoverMenu(getApplicationContext());
     }
 }

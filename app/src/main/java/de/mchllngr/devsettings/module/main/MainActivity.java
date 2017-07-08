@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
         devSettings.setOnClickListener((view) -> {
             boolean devSettingsEnabled = DevSettings.isEnabled(this);
             if (DevSettings.setEnabled(this, !devSettingsEnabled))
-                setDevSettingsEnabled(!devSettingsEnabled);
+                setDevSettingsEnabled(!devSettingsEnabled, false);
         });
     }
 
@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.developer_options:
-                openDeveloperOptions();
+                DevSettings.openDeveloperOptions(this);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (hasOverlayPermission(true))
-            setDevSettingsEnabled(DevSettings.isEnabled(this));
+            setDevSettingsEnabled(DevSettings.isEnabled(this), true);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REQUEST_CODE_HOVER_PERMISSION == requestCode) {
             permissionsRequested = true;
-            setDevSettingsEnabled(DevSettings.isEnabled(this));
+            setDevSettingsEnabled(DevSettings.isEnabled(this), true);
         } else
             super.onActivityResult(requestCode, resultCode, data);
     }
@@ -109,20 +109,13 @@ public class MainActivity extends BaseActivity {
     /**
      * Sets the DevSettings-icon enabled/disabled and shows the hover menu if necessary.
      */
-    private void setDevSettingsEnabled(boolean enabled) {
+    private void setDevSettingsEnabled(boolean enabled, boolean openHoverMenu) {
         devSettings.setColorFilter(ContextCompat.getColor(
                 this,
                 enabled ? R.color.colorPrimary : android.R.color.darker_gray
         ));
 
-        if (enabled && hasOverlayPermission(false))
+        if (enabled && openHoverMenu && hasOverlayPermission(false))
             DevSettingsHoverMenuService.showHoverMenu(this);
-    }
-
-    /**
-     * Opens the developer options menu.
-     */
-    private void openDeveloperOptions() {
-        startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
     }
 }

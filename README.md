@@ -11,7 +11,11 @@ Inspired by: https://github.com/nickbutcher/AnimatorDurationTile
 If you want to use your own set of developer settings just update <a href="https://github.com/mchllngr/AndroidDevSettings/blob/master/app/src/main/java/de/mchllngr/devsettings/util/DevSettingsUtil.java#L57:L79">this</a> and <a href="https://github.com/mchllngr/AndroidDevSettings/blob/master/app/src/main/java/de/mchllngr/devsettings/util/DevSettingsUtil.java#L81:L92">this</a> method to match your needs.
 
 # TODO
+- update README
 - add widget/notification for devices with older android versions
+
+# KNOWN BUGS
+- QuickTile does sometimes not show the correct state
 
 # License
 
