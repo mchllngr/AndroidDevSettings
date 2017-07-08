@@ -16,6 +16,7 @@ public class DevSettingsHoverMenuService extends HoverMenuService {
     private static Intent intent;
 
     public static void showHoverMenu(Context context) {
+        hideHoverMenu(context);
         context.startService(intent = new Intent(context, DevSettingsHoverMenuService.class));
     }
 

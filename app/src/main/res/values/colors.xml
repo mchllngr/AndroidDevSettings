@@ -6,6 +6,6 @@
     <color name="colorPrimaryDark">#861515</color>
     <color name="colorAccent">#a4c639</color>
 
-    <color name="hover_navigator_color">#FFFFFFFF</color>
+    <color name="hover_navigator_color">#FFFAFAFA</color>
 
 </resources>

@@ -19,9 +19,6 @@ import de.mchllngr.devsettings.util.DevSettingsUtil;
 @TargetApi(Build.VERSION_CODES.N)
 public class DevSettingsTileService extends TileService {
 
-    public DevSettingsTileService() {
-    }
-
     @Override
     public void onStartListening() {
         super.onStartListening();
