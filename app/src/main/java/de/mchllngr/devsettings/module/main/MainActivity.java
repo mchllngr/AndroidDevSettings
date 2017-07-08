@@ -13,7 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mchllngr.devsettings.R;
 import de.mchllngr.devsettings.base.BaseActivity;
-import de.mchllngr.devsettings.util.DevSettingsUtil;
+import de.mchllngr.devsettings.hover.DevSettingsHoverMenuService;
+import de.mchllngr.devsettings.util.DevSettings;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
 /**
@@ -33,22 +34,16 @@ public class MainActivity extends BaseActivity {
     /**
      * {@link Toolbar} for this {@link android.app.Activity}.
      */
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     /**
      * {@link ImageView} for setting the DevSettings.
      */
-    @BindView(R.id.dev_settings)
-    ImageView devSettings;
+    @BindView(R.id.dev_settings) ImageView devSettings;
 
     /**
      * Flag for only asking for permission once.
      */
     private boolean permissionsRequested = false;
-    /**
-     * Saves the current status of the DevSettings.
-     */
-    private boolean devSettingsEnabled = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +53,8 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         devSettings.setOnClickListener((view) -> {
-            if (DevSettingsUtil.setDevSettings(this, !devSettingsEnabled))
+            boolean devSettingsEnabled = DevSettings.isEnabled(this);
+            if (DevSettings.setEnabled(this, !devSettingsEnabled))
                 setDevSettingsEnabled(!devSettingsEnabled);
         });
     }
@@ -79,41 +75,48 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onResume() {
         super.onResume();
+        if (hasOverlayPermission(true))
+            setDevSettingsEnabled(DevSettings.isEnabled(this));
+    }
 
-        setDevSettingsEnabled(DevSettingsUtil.getDevSettingsEnabled(this));
-
-        // On Android M and above we need to ask the user for permission to display the Hover
-        // menu within the "alert window" layer.  Use OverlayPermission to check for the permission
-        // and to request it.
+    @SuppressWarnings("ConstantConditions")
+    private boolean hasOverlayPermission(boolean askForPermission) {
+        // On Android M and above we need to ask the user for permission to display the Hover menu within the "alert window" layer.
+        // Use OverlayPermission to check for the permission and to request it.
         if (!permissionsRequested && !OverlayPermission.hasRuntimePermissionToDrawOverlay(this)) {
-            @SuppressWarnings("NewApi")
-            Intent myIntent = OverlayPermission.createIntentToRequestOverlayPermission(this);
-            startActivityForResult(myIntent, REQUEST_CODE_HOVER_PERMISSION);
-        }
+            if (askForPermission) {
+                @SuppressWarnings("NewApi")
+                Intent myIntent = OverlayPermission.createIntentToRequestOverlayPermission(this);
+                startActivityForResult(myIntent, REQUEST_CODE_HOVER_PERMISSION);
+            }
+            return false;
+        } else
+            return true;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REQUEST_CODE_HOVER_PERMISSION == requestCode) {
             permissionsRequested = true;
-        } else {
+            setDevSettingsEnabled(DevSettings.isEnabled(this));
+        } else
             super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     /**
-     * Sets the DevSettings-icon as enabled/disabled.
+     * Sets the DevSettings-icon enabled/disabled and shows the hover menu if necessary.
      */
     private void setDevSettingsEnabled(boolean enabled) {
-        devSettingsEnabled = enabled;
         devSettings.setColorFilter(ContextCompat.getColor(
                 this,
-                devSettingsEnabled ? R.color.colorPrimary : android.R.color.darker_gray
+                enabled ? R.color.colorPrimary : android.R.color.darker_gray
         ));
+
+        if (enabled && hasOverlayPermission(false))
+            DevSettingsHoverMenuService.showHoverMenu(this);
     }
 
     /**
