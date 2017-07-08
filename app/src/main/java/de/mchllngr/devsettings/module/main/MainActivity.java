@@ -14,16 +14,21 @@ import butterknife.ButterKnife;
 import de.mchllngr.devsettings.R;
 import de.mchllngr.devsettings.base.BaseActivity;
 import de.mchllngr.devsettings.util.DevSettingsUtil;
+import io.mattcarroll.hover.overlay.OverlayPermission;
 
 /**
  * {@link android.app.Activity} for setting the DevSettings.
  * <p>
- * Note that this requires a system level permission, so consumers <b>must</b> run this
- * <code>adb</code> command to use.
+ * Note that this requires a system level permission, so consumers <b>must</b> run this <code>adb</code> command to use.
  * <p>
  * <code>adb shell pm grant de.mchllngr.devsettings[.debug] android.permission.WRITE_SECURE_SETTINGS</code>
  */
 public class MainActivity extends BaseActivity {
+
+    /**
+     * RequestCode for showing permission screen.
+     */
+    private static final int REQUEST_CODE_HOVER_PERMISSION = 46837;
 
     /**
      * {@link Toolbar} for this {@link android.app.Activity}.
@@ -36,6 +41,10 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.dev_settings)
     ImageView devSettings;
 
+    /**
+     * Flag for only asking for permission once.
+     */
+    private boolean permissionsRequested = false;
     /**
      * Saves the current status of the DevSettings.
      */
@@ -70,11 +79,30 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onResume() {
         super.onResume();
 
         setDevSettingsEnabled(DevSettingsUtil.getDevSettingsEnabled(this));
+
+        // On Android M and above we need to ask the user for permission to display the Hover
+        // menu within the "alert window" layer.  Use OverlayPermission to check for the permission
+        // and to request it.
+        if (!permissionsRequested && !OverlayPermission.hasRuntimePermissionToDrawOverlay(this)) {
+            @SuppressWarnings("NewApi")
+            Intent myIntent = OverlayPermission.createIntentToRequestOverlayPermission(this);
+            startActivityForResult(myIntent, REQUEST_CODE_HOVER_PERMISSION);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (REQUEST_CODE_HOVER_PERMISSION == requestCode) {
+            permissionsRequested = true;
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     /**

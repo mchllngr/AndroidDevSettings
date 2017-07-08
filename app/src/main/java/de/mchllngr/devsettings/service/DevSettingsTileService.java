@@ -12,8 +12,7 @@ import de.mchllngr.devsettings.util.DevSettingsUtil;
 /**
  * A {@link TileService} for setting the DevSettings.
  * <p>
- * Note that this requires a system level permission, so consumers <b>must</b> run this
- * <code>adb</code> command to use.
+ * Note that this requires a system level permission, so consumers <b>must</b> run this <code>adb</code> command to use.
  * <p>
  * <code>adb shell pm grant de.mchllngr.devsettings[.debug] android.permission.WRITE_SECURE_SETTINGS</code>
  */

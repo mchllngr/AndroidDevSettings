@@ -12,8 +12,7 @@ import timber.log.Timber;
 /**
  * Util-Class for enabling and disabling the DevSettings.
  * <p>
- * Note that this requires a system level permission, so consumers <b>must</b> run this
- * <code>adb</code> command to use.
+ * Note that this requires a system level permission, so consumers <b>must</b> run this <code>adb</code> command to use.
  * <p>
  * <code>adb shell pm grant de.mchllngr.devsettings[.debug] android.permission.WRITE_SECURE_SETTINGS</code>
  */
@@ -59,7 +58,7 @@ public class DevSettingsUtil {
      * Enables the DevSettings.
      */
     private static void enableDevSettings(Context context) throws SecurityException {
-        /**
+        /*
          * TODO not found yet
          * - strict mode (add ?)
          */
@@ -70,12 +69,12 @@ public class DevSettingsUtil {
         putSetting(cr, Settings.Global.STAY_ON_WHILE_PLUGGED_IN, stayOnWhilePluggedInValue);
         putSetting(cr, Settings.Global.ADB_ENABLED, 1);
         // TODO put animations in an extra tile/setting (or in a pickerDialog ?)
-        putSetting(cr, Settings.Global.WINDOW_ANIMATION_SCALE, 0F);
-        putSetting(cr, Settings.Global.TRANSITION_ANIMATION_SCALE, 0F);
-        putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 0F);
+//        putSetting(cr, Settings.Global.WINDOW_ANIMATION_SCALE, 0F);
+//        putSetting(cr, Settings.Global.TRANSITION_ANIMATION_SCALE, 0F);
+//        putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 0F);
         putSetting(cr, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 1);
 
-        DevSettingsHoverMenuService.showFloatingMenu(context);
+        DevSettingsHoverMenuService.showHoverMenu(context);
     }
 
     /**
@@ -91,7 +90,7 @@ public class DevSettingsUtil {
         putSetting(cr, Settings.Global.ANIMATOR_DURATION_SCALE, 1F);
         putSetting(cr, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 0);
 
-        DevSettingsHoverMenuService.hideFloatingMenu(context);
+        DevSettingsHoverMenuService.hideHoverMenu(context);
     }
 
     /**
