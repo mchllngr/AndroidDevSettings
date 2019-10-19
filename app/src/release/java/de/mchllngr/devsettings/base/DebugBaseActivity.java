@@ -1,6 +1,6 @@
 package de.mchllngr.devsettings.base;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * BaseDebug-class used for debug initializations.

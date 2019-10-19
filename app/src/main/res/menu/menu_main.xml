@@ -6,6 +6,6 @@
         android:id="@+id/developer_options"
         android:title="@string/open_developer_options"
         android:icon="@drawable/ic_settings_white_24dp"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
 </menu>

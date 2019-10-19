@@ -2,13 +2,13 @@ package de.mchllngr.devsettings.module.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mchllngr.devsettings.R;
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        devSettings.setOnClickListener((view) -> {
+        devSettings.setOnClickListener(view -> {
             boolean devSettingsEnabled = DevSettings.isEnabled(this);
             if (DevSettings.setEnabled(this, !devSettingsEnabled))
                 setDevSettingsEnabled(!devSettingsEnabled, false);
@@ -67,12 +67,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.developer_options:
-                DevSettings.openDeveloperOptions(this);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.developer_options) {
+            DevSettings.openDeveloperOptions(this);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -82,7 +81,6 @@ public class MainActivity extends BaseActivity {
             setDevSettingsEnabled(DevSettings.isEnabled(this), true);
     }
 
-    @SuppressWarnings("ConstantConditions")
     private boolean hasOverlayPermission(boolean askForPermission) {
         // On Android M and above we need to ask the user for permission to display the Hover menu within the "alert window" layer.
         // Use OverlayPermission to check for the permission and to request it.

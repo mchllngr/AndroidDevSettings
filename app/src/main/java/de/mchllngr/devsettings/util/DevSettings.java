@@ -5,11 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.BatteryManager;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import javax.annotation.Nullable;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mchllngr.devsettings.hover.DevSettingsHoverMenuService;
 import timber.log.Timber;
 
@@ -94,7 +93,9 @@ public class DevSettings {
      */
     public static void openDeveloperOptions(@Nullable final Context context) {
         if (context == null) return;
-        context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     public static boolean isDeveloperSettingsEnabled(@Nullable final Context context) throws Settings.SettingNotFoundException {

@@ -2,6 +2,9 @@ package de.mchllngr.devsettings.util.timber;
 
 import android.util.Log;
 
+import org.jetbrains.annotations.Nullable;
+
+import androidx.annotation.NonNull;
 import timber.log.Timber;
 
 /**
@@ -15,7 +18,7 @@ public class ReleaseTree extends Timber.Tree {
     private static final int MAX_LOG_LENGTH = 4000;
 
     @Override
-    protected boolean isLoggable(int priority) {
+    protected boolean isLoggable(@Nullable String tag, int priority) {
         // only log ERROR, WTF
         return !(priority == Log.WARN ||
                 priority == Log.VERBOSE ||
@@ -24,8 +27,8 @@ public class ReleaseTree extends Timber.Tree {
     }
 
     @Override
-    protected void log(int priority, String tag, String message, Throwable t) {
-        if (isLoggable(priority)) {
+    protected void log(int priority, String tag, @NonNull String message, Throwable t) {
+        if (isLoggable(tag, priority)) {
 
             // Message is short enough, does not need to be broken into chunks
             if (message.length() < MAX_LOG_LENGTH) {

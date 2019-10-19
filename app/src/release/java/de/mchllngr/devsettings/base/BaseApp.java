@@ -8,7 +8,7 @@ import timber.log.Timber;
 /**
  * Base-class used for initialising {@link Timber}.
  */
-public class BaseApp extends Application {
+public abstract class BaseApp extends Application {
 
     @Override
     public void onCreate() {

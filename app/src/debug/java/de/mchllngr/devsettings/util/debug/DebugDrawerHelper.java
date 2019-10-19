@@ -1,11 +1,10 @@
 package de.mchllngr.devsettings.util.debug;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import de.mchllngr.devsettings.R;
@@ -25,39 +24,13 @@ import jp.wasabeef.takt.Takt;
  */
 public class DebugDrawerHelper {
 
-    /**
-     * {@link AppCompatActivity} used for initialising.
-     */
     private final AppCompatActivity activity;
-    /**
-     * {@link String} used for initialising the NightMode-{@link ActionsModule}.
-     */
-    @BindString(R.string.debug_night_mode_select)
-    String debugNightModeSelect;
-    /**
-     * {@link String} used for initialising the NightMode-{@link ActionsModule}.
-     */
-    @BindString(R.string.debug_night_mode_yes)
-    String debugNightModeYes;
-    /**
-     * {@link String} used for initialising the NightMode-{@link ActionsModule}.
-     */
-    @BindString(R.string.debug_night_mode_no)
-    String debugNightModeNo;
-    /**
-     * {@link String} used for initialising the NightMode-{@link ActionsModule}.
-     */
-    @BindString(R.string.debug_night_mode_auto)
-    String debugNightModeAuto;
-    /**
-     * {@link String} used for initialising the NightMode-{@link ActionsModule}.
-     */
-    @BindString(R.string.debug_night_mode_follow_system)
-    String debugNightModeFollowSystem;
-    /**
-     * {@link DebugDrawer} reference to use.
-     */
-    private DebugDrawer debugDrawer;
+
+    @BindString(R.string.debug_night_mode_select) String debugNightModeSelect;
+    @BindString(R.string.debug_night_mode_yes) String debugNightModeYes;
+    @BindString(R.string.debug_night_mode_no) String debugNightModeNo;
+    @BindString(R.string.debug_night_mode_auto) String debugNightModeAuto;
+    @BindString(R.string.debug_night_mode_follow_system) String debugNightModeFollowSystem;
 
     /**
      * Constructor with {@link AppCompatActivity} used for initialising.
@@ -72,25 +45,23 @@ public class DebugDrawerHelper {
     /**
      * Initialises the {@link DebugDrawer}.
      */
-    public void initDebugDrawer() {
-        debugDrawer = new DebugDrawer.Builder(activity)
+    public DebugDrawer createDebugDrawer() {
+        return new DebugDrawer.Builder(activity)
                 .modules(
                         new ActionsModule(getNightModeActionsModule()),
-                        new NetworkModule(activity),
+                        new NetworkModule(),
                         new ScalpelModule(activity),
                         new FpsModule(Takt.stock(activity.getApplication())),
-                        new BuildModule(activity),
-                        new DeviceModule(activity),
-                        new SettingsModule(activity)
+                        new BuildModule(),
+                        new DeviceModule(),
+                        new SettingsModule()
                 ).build();
     }
 
     /**
-     * Returns the {@link ActionsModule} for selecting the
-     * {@link android.support.v7.app.AppCompatDelegate.NightMode}
+     * Returns the {@link ActionsModule} for selecting the{@link AppCompatDelegate.NightMode}
      *
-     * @return {@link ActionsModule} for selecting the
-     * {@link android.support.v7.app.AppCompatDelegate.NightMode}
+     * @return {@link ActionsModule} for selecting the {@link AppCompatDelegate.NightMode}
      */
     private SpinnerAction getNightModeActionsModule() {
         return new SpinnerAction<>(
@@ -101,51 +72,19 @@ public class DebugDrawerHelper {
                         debugNightModeAuto,
                         debugNightModeFollowSystem
                 ),
-                new SpinnerAction.OnItemSelectedListener<String>() {
-                    @Override
-                    public void onItemSelected(@NonNull String value) {
-                        int selectedMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                value -> {
+                    int selectedMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
 
-                        if (value.equals(debugNightModeYes))
-                            selectedMode = AppCompatDelegate.MODE_NIGHT_YES;
-                        else if (value.equals(debugNightModeNo))
-                            selectedMode = AppCompatDelegate.MODE_NIGHT_NO;
-                        else if (value.equals(debugNightModeAuto))
-                            selectedMode = AppCompatDelegate.MODE_NIGHT_AUTO;
+                    if (value.equals(debugNightModeYes))
+                        selectedMode = AppCompatDelegate.MODE_NIGHT_YES;
+                    else if (value.equals(debugNightModeNo))
+                        selectedMode = AppCompatDelegate.MODE_NIGHT_NO;
+                    else if (value.equals(debugNightModeAuto))
+                        selectedMode = AppCompatDelegate.MODE_NIGHT_AUTO;
 
-                        activity.getDelegate().setLocalNightMode(selectedMode);
-                        activity.recreate();
-                    }
+                    activity.getDelegate().setLocalNightMode(selectedMode);
+                    activity.recreate();
                 }
         );
-    }
-
-    /**
-     * Attach {@link DebugDrawer} to lifecycle.
-     */
-    public void onStart() {
-        debugDrawer.onStart();
-    }
-
-    /**
-     * Attach {@link DebugDrawer} to lifecycle.
-     */
-    public void onResume() {
-        debugDrawer.onResume();
-    }
-
-    /**
-     * Attach {@link DebugDrawer} to lifecycle.
-     */
-    public void onPause() {
-        debugDrawer.onPause();
-    }
-
-
-    /**
-     * Attach {@link DebugDrawer} to lifecycle.
-     */
-    public void onStop() {
-        debugDrawer.onStop();
     }
 }

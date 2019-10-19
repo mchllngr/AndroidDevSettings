@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION
-    buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION
 
     dexOptions {
         maxProcessCount 4
@@ -20,8 +19,6 @@ android {
         targetSdkVersion rootProject.ext.TARGET_SDK_VERSION
         versionCode rootProject.ext.VERSIONCODE
         versionName rootProject.ext.VERSIONAME
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -67,26 +64,27 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile "com.android.support:appcompat-v7:$rootProject.ext.SUPPORT_VERSION"
-    compile "com.android.support:design:$rootProject.ext.SUPPORT_VERSION"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.APPCOMPAT_VERSION"
+    implementation "com.google.android.material:material:$rootProject.ext.MATERIAL_VERSION"
 
-    compile "com.jakewharton:butterknife:$rootProject.ext.BUTTERKNIFE_VERSION"
+    implementation "com.jakewharton:butterknife:$rootProject.ext.BUTTERKNIFE_VERSION"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.BUTTERKNIFE_VERSION"
 
-    compile "com.jakewharton.timber:timber:$rootProject.ext.TIMBER_VERSION"
+    implementation "com.jakewharton.timber:timber:$rootProject.ext.TIMBER_VERSION"
 
-    compile "io.mattcarroll.hover:hover:$rootProject.ext.HOVER_VERSION"
+    implementation "io.mattcarroll.hover:hover:$rootProject.ext.HOVER_VERSION"
 
-    debugCompile "com.facebook.stetho:stetho:$rootProject.ext.STETHO_VERSION"
+    debugImplementation "com.facebook.stetho:stetho:$rootProject.ext.STETHO_VERSION"
 
-    debugCompile "io.palaima.debugdrawer:debugdrawer:$rootProject.ext.DEBUGDRAWER_VERSION"
-    debugCompile "io.palaima.debugdrawer:debugdrawer-commons:$rootProject.ext.DEBUGDRAWER_VERSION"
-    debugCompile "io.palaima.debugdrawer:debugdrawer-actions:$rootProject.ext.DEBUGDRAWER_VERSION"
-    debugCompile "io.palaima.debugdrawer:debugdrawer-scalpel:$rootProject.ext.DEBUGDRAWER_VERSION"
-    debugCompile "io.palaima.debugdrawer:debugdrawer-fps:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-base:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-commons:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-actions:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-scalpel:$rootProject.ext.DEBUGDRAWER_VERSION"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-fps:$rootProject.ext.DEBUGDRAWER_VERSION"
     // Used by DebugDrawer
-    debugCompile "com.jakewharton.scalpel:scalpel:$rootProject.ext.SCALPEL_VERSION"
-    debugCompile "jp.wasabeef:takt:$rootProject.ext.TAKT_VERSION"
+    debugImplementation "com.jakewharton.scalpel:scalpel:$rootProject.ext.SCALPEL_VERSION"
+    debugImplementation "jp.wasabeef:takt:$rootProject.ext.TAKT_VERSION"
 }

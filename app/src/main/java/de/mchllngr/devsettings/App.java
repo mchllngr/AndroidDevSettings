@@ -1,7 +1,6 @@
 package de.mchllngr.devsettings;
 
-import android.support.v7.app.AppCompatDelegate;
-
+import androidx.appcompat.app.AppCompatDelegate;
 import de.mchllngr.devsettings.base.BaseApp;
 
 /**
@@ -14,10 +13,5 @@ public class App extends BaseApp {
      */
     static {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
     }
 }

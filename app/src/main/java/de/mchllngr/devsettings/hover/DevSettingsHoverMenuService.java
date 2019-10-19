@@ -2,9 +2,9 @@ package de.mchllngr.devsettings.hover;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import de.mchllngr.devsettings.util.DevSettings;
 import io.mattcarroll.hover.HoverMenu;
 import io.mattcarroll.hover.HoverView;

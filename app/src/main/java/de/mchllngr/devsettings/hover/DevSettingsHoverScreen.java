@@ -3,12 +3,12 @@ package de.mchllngr.devsettings.hover;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mchllngr.devsettings.R;
@@ -76,7 +76,10 @@ public class DevSettingsHoverScreen implements Content {
         // set listeners
         cbStayAwake.setOnCheckedChangeListener((view, isChecked) -> DevSettings.setStayAwakeEnabled(context, isChecked));
         cbDontKeepActivities.setOnCheckedChangeListener((view, isChecked) -> DevSettings.setDontKeepActivitiesEnabled(context, isChecked));
-        tvOpenDevSettings.setOnClickListener(view -> DevSettings.openDeveloperOptions(context));
+        tvOpenDevSettings.setOnClickListener(view -> {
+            DevSettingsHoverMenuService.hideHoverMenu(context);
+            DevSettings.openDeveloperOptions(context);
+        });
     }
 
     @Override
