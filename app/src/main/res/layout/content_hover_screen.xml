@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <TextView
+            style="@style/AppTheme.HoverScreenTitle"
+            android:text="@string/app_name" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_stay_awake"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_stay_awake" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_show_tabs"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_show_tabs" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_show_surface_updates"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_show_surface_updates" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_show_layout_bounds"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_show_layout_bounds" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_force_rtl_layout_direction"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_force_rtl_layout_direction" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <TextView
+            android:id="@+id/tv_hover_animation_scale"
+            style="@style/AppTheme.HoverScreenItemText"
+            android:text="@string/hover_screen_animation_scale" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_strict_mode_enabled"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_strict_mode_enabled" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_profile_gpu_rendering"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_profile_gpu_rendering" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_dont_keep_activities"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_dont_keep_activities" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <CheckBox
+            android:id="@+id/cb_hover_force_activities_to_be_resizable"
+            style="@style/AppTheme.HoverScreenItemCheckBox"
+            android:text="@string/hover_screen_force_activities_to_be_resizable" />
+
+        <View style="@style/AppTheme.HoverScreenItemDivider" />
+
+        <TextView
+            android:id="@+id/tv_hover_open_dev_settings"
+            style="@style/AppTheme.HoverScreenItemText"
+            android:text="@string/hover_screen_open_dev_settings" />
+
+    </LinearLayout>
+
+</ScrollView>

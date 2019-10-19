@@ -6,4 +6,8 @@
     <color name="colorPrimaryDark">#361011</color>
     <color name="colorAccent">#718927</color>
 
+    <color name="hover_navigator_color">#303030</color>
+    <color name="hover_screen_title_color">@color/colorPrimaryLight</color>
+    <color name="hover_screen_item_divider_color">#616161</color>
+
 </resources>

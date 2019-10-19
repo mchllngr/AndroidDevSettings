@@ -1,10 +1,10 @@
 package de.mchllngr.devsettings.base;
 
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.AppCompatActivity;
 import de.mchllngr.devsettings.util.debug.DebugDrawerHelper;
 import io.palaima.debugdrawer.DebugDrawer;
 
@@ -13,13 +13,10 @@ import io.palaima.debugdrawer.DebugDrawer;
  */
 public abstract class DebugBaseActivity extends AppCompatActivity {
 
-    /**
-     * {@link DebugDrawerHelper} reference to use.
-     */
-    private DebugDrawerHelper debugDrawerHelper;
+    private DebugDrawer debugDrawer;
 
     /**
-     * Overrides {@link android.support.v7.app.AppCompatActivity#setContentView(int)} to
+     * Overrides {@link AppCompatActivity#setContentView(int)} to
      * allow setting the {@link DebugDrawer} when called.
      *
      * @param layoutResID {@link LayoutRes} used for setting the ContentView
@@ -31,7 +28,7 @@ public abstract class DebugBaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Overrides {@link android.support.v7.app.AppCompatActivity#setContentView(View)} to
+     * Overrides {@link AppCompatActivity#setContentView(View)} to
      * allow setting the {@link DebugDrawer} when called.
      *
      * @param view {@link View} used for setting the ContentView
@@ -43,7 +40,7 @@ public abstract class DebugBaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Overrides {@link android.support.v7.app.AppCompatActivity#setContentView(View, ViewGroup.LayoutParams)}
+     * Overrides {@link AppCompatActivity#setContentView(View, ViewGroup.LayoutParams)}
      * to allow setting the {@link DebugDrawer} when called.
      *
      * @param view   {@link View} used for setting the ContentView
@@ -59,47 +56,15 @@ public abstract class DebugBaseActivity extends AppCompatActivity {
      * Initialises the {@link DebugDrawer} and sets it.
      */
     private void setDebugDrawer() {
-        if (debugDrawerHelper == null)
-            debugDrawerHelper = new DebugDrawerHelper(this);
-        debugDrawerHelper.initDebugDrawer();
+        debugDrawer = new DebugDrawerHelper(this).createDebugDrawer();
     }
 
-    /**
-     * Attach {@link DebugDrawer} to lifecycle.
-     */
     @Override
-    protected void onStart() {
-        super.onStart();
-        debugDrawerHelper.onStart();
-    }
-
-
-    /**
-     * Attach {@link DebugDrawer} to lifecycle.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        debugDrawerHelper.onResume();
-    }
-
-
-    /**
-     * Attach {@link DebugDrawer} to lifecycle.
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        debugDrawerHelper.onPause();
-    }
-
-
-    /**
-     * Attach {@link DebugDrawer} to lifecycle.
-     */
-    @Override
-    protected void onStop() {
-        super.onStop();
-        debugDrawerHelper.onStop();
+    public void onBackPressed() {
+        if (debugDrawer != null && debugDrawer.isDrawerOpen()) {
+            debugDrawer.closeDrawer();
+            return;
+        }
+        super.onBackPressed();
     }
 }
