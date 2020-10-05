@@ -2,8 +2,6 @@ package de.mchllngr.devsettings.base;
 
 import android.app.Application;
 
-import com.facebook.stetho.Stetho;
-
 import androidx.annotation.NonNull;
 import timber.log.Timber;
 
@@ -15,8 +13,6 @@ public abstract class BaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Stetho.initializeWithDefaults(this);
 
         initTimber();
     }
