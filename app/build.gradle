@@ -76,8 +76,6 @@ dependencies {
 
     implementation "io.mattcarroll.hover:hover:$rootProject.ext.HOVER_VERSION"
 
-    debugImplementation "com.facebook.stetho:stetho:$rootProject.ext.STETHO_VERSION"
-
     debugImplementation "io.palaima.debugdrawer:debugdrawer:$rootProject.ext.DEBUGDRAWER_VERSION"
     debugImplementation "io.palaima.debugdrawer:debugdrawer-base:$rootProject.ext.DEBUGDRAWER_VERSION"
     debugImplementation "io.palaima.debugdrawer:debugdrawer-commons:$rootProject.ext.DEBUGDRAWER_VERSION"

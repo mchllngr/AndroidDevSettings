@@ -4,11 +4,13 @@ buildscript {
         google()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.5.1"
-        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.27.0" // allows checking for new versions with './gradlew dependencyUpdates -Drevision=release'
+        classpath "com.android.tools.build:gradle:4.1.0-rc03"
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:2.0.0-RC1"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.33.0" // allows checking for new versions with './gradlew dependencyUpdates -Drevision=release'
     }
 }
+
+apply plugin: "com.github.ben-manes.versions"
 
 allprojects {
     repositories {
@@ -23,25 +25,24 @@ task clean(type: Delete) {
 
 ext {
     // Tools and sdk
-    COMPILE_SDK_VERSION = 29
+    COMPILE_SDK_VERSION = 30
     MIN_SDK_VERSION = 21
-    TARGET_SDK_VERSION = 29
+    TARGET_SDK_VERSION = 30
 
     // Version
     MAJOR_VERSION = 1
-    MINOR_VERSION = 1
+    MINOR_VERSION = 2
     BUGFIX_VERSION = 0
     VERSIONCODE = MAJOR_VERSION * 1000000 + MINOR_VERSION * 1000 + BUGFIX_VERSION
     VERSIONAME = "$MAJOR_VERSION.$MINOR_VERSION.$BUGFIX_VERSION"
 
     // App dependencies
-    APPCOMPAT_VERSION = "1.1.0"
-    MATERIAL_VERSION = "1.0.0"
-    BUTTERKNIFE_VERSION = "10.2.0"
+    APPCOMPAT_VERSION = "1.2.0"
+    MATERIAL_VERSION = "1.2.1"
+    BUTTERKNIFE_VERSION = "10.2.3"
     TIMBER_VERSION = "4.7.1"
     HOVER_VERSION = "0.9.8"
-    STETHO_VERSION = "1.5.1"
     DEBUGDRAWER_VERSION = "0.8.0"
     SCALPEL_VERSION = "1.1.2"
-    TAKT_VERSION = "1.0.4"
+    TAKT_VERSION = "2.1.0"
 }
