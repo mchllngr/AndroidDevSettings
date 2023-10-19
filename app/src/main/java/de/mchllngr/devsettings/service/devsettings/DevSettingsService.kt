@@ -1,6 +1,5 @@
 package de.mchllngr.devsettings.service.devsettings
 
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.os.BatteryManager
@@ -76,30 +75,6 @@ class DevSettingsService {
         setDontKeepActivitiesEnabled(context, false)
     }
 
-    @Throws(SecurityException::class)
-    private fun putSetting(
-        contentResolver: ContentResolver,
-        settingsName: String,
-        value: Int
-    ) {
-        Settings.Global.putInt(contentResolver, settingsName, value)
-    }
-
-    @Throws(SecurityException::class)
-    private fun putSetting(
-        contentResolver: ContentResolver,
-        settingsName: String,
-        value: Float
-    ) {
-        Settings.Global.putFloat(contentResolver, settingsName, value)
-    }
-
-    @Throws(SettingNotFoundException::class)
-    private fun getSetting(
-        contentResolver: ContentResolver,
-        settingsName: String
-    ) = Settings.Global.getFloat(contentResolver, settingsName)
-
     fun openDeveloperOptions(context: Context) {
         val intent = Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -107,31 +82,31 @@ class DevSettingsService {
     }
 
     @Throws(SettingNotFoundException::class)
-    fun isDeveloperSettingsEnabled(context: Context) = getSetting(context.contentResolver, Settings.Global.DEVELOPMENT_SETTINGS_ENABLED) == 1f
+    fun isDeveloperSettingsEnabled(context: Context) = context.getSetting(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED) == 1f
 
     @Throws(SecurityException::class)
     fun setDeveloperSettingsEnabled(
         context: Context,
         enabled: Boolean
     ) {
-        putSetting(context.contentResolver, Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, if (enabled) 1 else 0)
+        context.putSetting(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, if (enabled) 1 else 0)
     }
 
     @Throws(SettingNotFoundException::class)
-    fun isAdbEnabled(context: Context) = getSetting(context.contentResolver, Settings.Global.ADB_ENABLED) == 1f
+    fun isAdbEnabled(context: Context) = context.getSetting(Settings.Global.ADB_ENABLED) == 1f
 
     @Throws(SecurityException::class)
     fun setAdbEnabled(
         context: Context,
         enabled: Boolean
     ) {
-        putSetting(context.contentResolver, Settings.Global.ADB_ENABLED, if (enabled) 1 else 0)
+        context.putSetting(Settings.Global.ADB_ENABLED, if (enabled) 1 else 0)
     }
 
     @Throws(SettingNotFoundException::class)
     fun isStayAwakeEnabled(context: Context): Boolean {
         val enabledValue = BatteryManager.BATTERY_PLUGGED_AC or BatteryManager.BATTERY_PLUGGED_USB or BatteryManager.BATTERY_PLUGGED_WIRELESS
-        return getSetting(context.contentResolver, Settings.Global.STAY_ON_WHILE_PLUGGED_IN) == enabledValue.toFloat()
+        return context.getSetting(Settings.Global.STAY_ON_WHILE_PLUGGED_IN) == enabledValue.toFloat()
     }
 
     @Throws(SecurityException::class)
@@ -142,34 +117,53 @@ class DevSettingsService {
         val value =
             if (enabled) BatteryManager.BATTERY_PLUGGED_AC or BatteryManager.BATTERY_PLUGGED_USB or BatteryManager.BATTERY_PLUGGED_WIRELESS
             else 0
-        putSetting(context.contentResolver, Settings.Global.STAY_ON_WHILE_PLUGGED_IN, value)
+        context.putSetting(Settings.Global.STAY_ON_WHILE_PLUGGED_IN, value)
     }
 
     @Throws(SettingNotFoundException::class)
-    fun getAnimationsScale(context: Context) = getSetting(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE)
+    fun getAnimationsScale(context: Context) = context.getSetting(Settings.Global.ANIMATOR_DURATION_SCALE)
 
     @Throws(SecurityException::class)
     fun setAnimationsScale(
         context: Context,
         scale: Float
     ) {
-        with(context.contentResolver) {
-            putSetting(this, Settings.Global.WINDOW_ANIMATION_SCALE, scale)
-            putSetting(this, Settings.Global.TRANSITION_ANIMATION_SCALE, scale)
-            putSetting(this, Settings.Global.ANIMATOR_DURATION_SCALE, scale)
-        }
+        context.putSetting(Settings.Global.WINDOW_ANIMATION_SCALE, scale)
+        context.putSetting(Settings.Global.TRANSITION_ANIMATION_SCALE, scale)
+        context.putSetting(Settings.Global.ANIMATOR_DURATION_SCALE, scale)
     }
 
     @Throws(SettingNotFoundException::class)
-    fun isDontKeepActivitiesEnabled(context: Context) = getSetting(context.contentResolver, Settings.Global.ALWAYS_FINISH_ACTIVITIES) == 1f
+    fun isDontKeepActivitiesEnabled(context: Context) = context.getSetting(Settings.Global.ALWAYS_FINISH_ACTIVITIES) == 1f
 
     @Throws(SecurityException::class)
     fun setDontKeepActivitiesEnabled(
         context: Context,
         enabled: Boolean
     ) {
-        putSetting(context.contentResolver, Settings.Global.ALWAYS_FINISH_ACTIVITIES, if (enabled) 1 else 0)
+        context.putSetting(Settings.Global.ALWAYS_FINISH_ACTIVITIES, if (enabled) 1 else 0)
     }
+
+    @Throws(SecurityException::class)
+    private fun Context.putSetting(
+        settingsName: String,
+        value: Int
+    ) {
+        Settings.Global.putInt(contentResolver, settingsName, value)
+    }
+
+    @Throws(SecurityException::class)
+    private fun Context.putSetting(
+        settingsName: String,
+        value: Float
+    ) {
+        Settings.Global.putFloat(contentResolver, settingsName, value)
+    }
+
+    @Throws(SettingNotFoundException::class)
+    private fun Context.getSetting(
+        settingsName: String
+    ) = Settings.Global.getFloat(contentResolver, settingsName)
 
     companion object {
 
