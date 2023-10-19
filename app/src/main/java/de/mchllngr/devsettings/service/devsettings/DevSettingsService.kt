@@ -7,6 +7,8 @@ import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 import android.util.Log
 import android.widget.Toast
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Class for enabling, disabling, getting and setting the DevSettings.
@@ -16,6 +18,18 @@ import android.widget.Toast
  * `adb shell pm grant de.mchllngr.devsettings[.debug] android.permission.WRITE_SECURE_SETTINGS`
  */
 class DevSettingsService {
+
+    // TODO initialize with real values
+    private val _settings = MutableStateFlow(
+        DevSettings(
+            enabled = true,
+            adbEnabled = true,
+            stayAwakeEnabled = true,
+            animationsScale = 1f,
+            dontKeepActivitiesEnabled = true
+        )
+    )
+    val settings: StateFlow<DevSettings> = _settings
 
     /**
      * Enables or disables the DevSettings.

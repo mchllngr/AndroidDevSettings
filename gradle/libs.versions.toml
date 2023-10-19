@@ -1,6 +1,7 @@
 [versions]
 agp = "8.1.2"
-org-jetbrains-kotlin-android = "1.8.10"
+kotlin-android = "1.8.10"
+kotlin-android-coroutines = "1.7.3"
 core-ktx = "1.12.0"
 lifecycle-runtime-ktx = "2.6.2"
 appcompat = "1.6.1"
@@ -8,6 +9,7 @@ material = "1.10.0"
 constraintlayout = "2.1.4"
 
 [libraries]
+kotlin-android-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlin-android-coroutines" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -15,7 +17,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version.ref = "agp" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 
 [bundles]
