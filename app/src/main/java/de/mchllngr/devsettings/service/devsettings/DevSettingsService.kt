@@ -1,5 +1,6 @@
 package de.mchllngr.devsettings.service.devsettings
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.os.BatteryManager
@@ -7,6 +8,9 @@ import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import de.mchllngr.devsettings.servicelocator.ServiceLocator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -17,41 +21,38 @@ import kotlinx.coroutines.flow.StateFlow
  *
  * `adb shell pm grant de.mchllngr.devsettings[.debug] android.permission.WRITE_SECURE_SETTINGS`
  */
-class DevSettingsService {
+class DevSettingsService : DefaultLifecycleObserver {
 
-    // TODO initialize with real values
-    private val _settings = MutableStateFlow(
-        DevSettings(
-            enabled = true,
-            adbEnabled = true,
-            stayAwakeEnabled = true,
-            animationsScale = 1f,
-            dontKeepActivitiesEnabled = true
-        )
-    )
-    val settings: StateFlow<DevSettings> = _settings
+    private val applicationContext by ServiceLocator::applicationContext
+    private val applicationContentReceiver: ContentResolver get() = applicationContext.contentResolver
+
+    private val _enabled = MutableStateFlow(false)
+    val enabled: StateFlow<Boolean> = _enabled
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+
+        _enabled.value = isEnabled()
+    }
 
     /**
      * Enables or disables the DevSettings.
      *
      * Returns false if it fails e.g. when the system permission is not granted.
      */
-    fun setEnabled(
-        context: Context,
-        enabled: Boolean
-    ): Boolean {
+    fun setEnabled(enabled: Boolean): Boolean {
         try {
             if (enabled) {
-                setDefaultEnabledSettings(context)
-//                DevSettingsHoverMenuService.showHoverMenu(context); // TODO move to bubbles?
+                setDefaultEnabledSettings()
+                _enabled.value = true
             } else {
-//                DevSettingsHoverMenuService.hideHoverMenu(context); // TODO move to bubbles?
-                setDefaultDisabledSettings(context)
+                setDefaultDisabledSettings()
+                _enabled.value = false
             }
             return true
         } catch (e: SecurityException) {
             val errorMsg = "Could not set the DevSettings! Maybe the system permission is missing."
-            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_SHORT).show()
             Log.e(KEY_LOG, errorMsg, e)
         }
         return false
@@ -62,122 +63,105 @@ class DevSettingsService {
      *
      * Returns false, if DeveloperSettings or ADB is disabled or it fails e.g. when the setting is not found.
      */
-    fun isEnabled(context: Context): Boolean {
+    fun isEnabled(): Boolean {
         try {
-            return isDeveloperSettingsEnabled(context) && isAdbEnabled(context)
+            return isDeveloperSettingsEnabled() && isAdbEnabled()
         } catch (e: SettingNotFoundException) {
             val errorMsg = "Could not get the DevSettings! Maybe the system permission is missing."
-            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, errorMsg, Toast.LENGTH_SHORT).show()
             Log.e(KEY_LOG, errorMsg, e)
         }
         return false
     }
 
     @Throws(SecurityException::class)
-    private fun setDefaultEnabledSettings(context: Context) {
-        setDeveloperSettingsEnabled(context, true)
-        setAdbEnabled(context, true)
-        setStayAwakeEnabled(context, true)
-        setDontKeepActivitiesEnabled(context, true)
+    private fun setDefaultEnabledSettings() {
+        setDeveloperSettingsEnabled(true)
+        setAdbEnabled(true)
+        setStayAwakeEnabled(true)
+        setDontKeepActivitiesEnabled(true)
     }
 
     @Throws(SecurityException::class)
-    private fun setDefaultDisabledSettings(context: Context) {
-        setAdbEnabled(context, false)
-        setStayAwakeEnabled(context, false)
-        setAnimationsScale(context, 1f)
-        setDontKeepActivitiesEnabled(context, false)
+    private fun setDefaultDisabledSettings() {
+        setAdbEnabled(false)
+        setStayAwakeEnabled(false)
+        setAnimationsScale(1f)
+        setDontKeepActivitiesEnabled(false)
     }
 
-    fun openDeveloperOptions(context: Context) {
+    fun openDeveloperOptions(activityContext: Context) {
         val intent = Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(intent)
+        activityContext.startActivity(intent)
     }
 
     @Throws(SettingNotFoundException::class)
-    fun isDeveloperSettingsEnabled(context: Context) = context.getSetting(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED) == 1f
+    private fun isDeveloperSettingsEnabled() = getSetting(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED) == 1f
 
     @Throws(SecurityException::class)
-    fun setDeveloperSettingsEnabled(
-        context: Context,
-        enabled: Boolean
-    ) {
-        context.putSetting(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, if (enabled) 1 else 0)
+    private fun setDeveloperSettingsEnabled(enabled: Boolean) {
+        putSetting(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, if (enabled) 1 else 0)
     }
 
     @Throws(SettingNotFoundException::class)
-    fun isAdbEnabled(context: Context) = context.getSetting(Settings.Global.ADB_ENABLED) == 1f
+    private fun isAdbEnabled() = getSetting(Settings.Global.ADB_ENABLED) == 1f
 
     @Throws(SecurityException::class)
-    fun setAdbEnabled(
-        context: Context,
-        enabled: Boolean
-    ) {
-        context.putSetting(Settings.Global.ADB_ENABLED, if (enabled) 1 else 0)
+    private fun setAdbEnabled(enabled: Boolean) {
+        putSetting(Settings.Global.ADB_ENABLED, if (enabled) 1 else 0)
     }
 
     @Throws(SettingNotFoundException::class)
-    fun isStayAwakeEnabled(context: Context): Boolean {
+    private fun isStayAwakeEnabled(): Boolean {
         val enabledValue = BatteryManager.BATTERY_PLUGGED_AC or BatteryManager.BATTERY_PLUGGED_USB or BatteryManager.BATTERY_PLUGGED_WIRELESS
-        return context.getSetting(Settings.Global.STAY_ON_WHILE_PLUGGED_IN) == enabledValue.toFloat()
+        return getSetting(Settings.Global.STAY_ON_WHILE_PLUGGED_IN) == enabledValue.toFloat()
     }
 
     @Throws(SecurityException::class)
-    fun setStayAwakeEnabled(
-        context: Context,
-        enabled: Boolean
-    ) {
+    private fun setStayAwakeEnabled(enabled: Boolean) {
         val value =
             if (enabled) BatteryManager.BATTERY_PLUGGED_AC or BatteryManager.BATTERY_PLUGGED_USB or BatteryManager.BATTERY_PLUGGED_WIRELESS
             else 0
-        context.putSetting(Settings.Global.STAY_ON_WHILE_PLUGGED_IN, value)
+        putSetting(Settings.Global.STAY_ON_WHILE_PLUGGED_IN, value)
     }
 
     @Throws(SettingNotFoundException::class)
-    fun getAnimationsScale(context: Context) = context.getSetting(Settings.Global.ANIMATOR_DURATION_SCALE)
+    private fun getAnimationsScale() = getSetting(Settings.Global.ANIMATOR_DURATION_SCALE)
 
     @Throws(SecurityException::class)
-    fun setAnimationsScale(
-        context: Context,
-        scale: Float
-    ) {
-        context.putSetting(Settings.Global.WINDOW_ANIMATION_SCALE, scale)
-        context.putSetting(Settings.Global.TRANSITION_ANIMATION_SCALE, scale)
-        context.putSetting(Settings.Global.ANIMATOR_DURATION_SCALE, scale)
+    private fun setAnimationsScale(scale: Float) {
+        putSetting(Settings.Global.WINDOW_ANIMATION_SCALE, scale)
+        putSetting(Settings.Global.TRANSITION_ANIMATION_SCALE, scale)
+        putSetting(Settings.Global.ANIMATOR_DURATION_SCALE, scale)
     }
 
     @Throws(SettingNotFoundException::class)
-    fun isDontKeepActivitiesEnabled(context: Context) = context.getSetting(Settings.Global.ALWAYS_FINISH_ACTIVITIES) == 1f
+    private fun isDontKeepActivitiesEnabled() = getSetting(Settings.Global.ALWAYS_FINISH_ACTIVITIES) == 1f
 
     @Throws(SecurityException::class)
-    fun setDontKeepActivitiesEnabled(
-        context: Context,
-        enabled: Boolean
-    ) {
-        context.putSetting(Settings.Global.ALWAYS_FINISH_ACTIVITIES, if (enabled) 1 else 0)
+    private fun setDontKeepActivitiesEnabled(enabled: Boolean) {
+        putSetting(Settings.Global.ALWAYS_FINISH_ACTIVITIES, if (enabled) 1 else 0)
     }
 
     @Throws(SecurityException::class)
-    private fun Context.putSetting(
+    private fun putSetting(
         settingsName: String,
         value: Int
     ) {
-        Settings.Global.putInt(contentResolver, settingsName, value)
+        Settings.Global.putInt(applicationContentReceiver, settingsName, value)
     }
 
     @Throws(SecurityException::class)
-    private fun Context.putSetting(
+    private fun putSetting(
         settingsName: String,
         value: Float
     ) {
-        Settings.Global.putFloat(contentResolver, settingsName, value)
+        Settings.Global.putFloat(applicationContentReceiver, settingsName, value)
     }
 
     @Throws(SettingNotFoundException::class)
-    private fun Context.getSetting(
-        settingsName: String
-    ) = Settings.Global.getFloat(contentResolver, settingsName)
+    private fun getSetting(settingsName: String) = Settings.Global.getFloat(applicationContentReceiver, settingsName)
 
     companion object {
 
