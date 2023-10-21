@@ -1,5 +1,10 @@
 package de.mchllngr.devsettings
 
+import android.app.Activity
+import android.app.StatusBarManager
+import android.content.ComponentName
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,8 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.mchllngr.devsettings.databinding.ActivityMainBinding
 import de.mchllngr.devsettings.extension.flow.launchAndCollectIn
+import de.mchllngr.devsettings.service.devsettingstile.DevSettingsTileService
 import de.mchllngr.devsettings.servicelocator.ServiceLocator
 
+/**
+ * An [Activity] for setting the DevSettings.
+ *
+ * Note that this requires a system level permission, so consumers **must** run this `adb` command to use.
+ *
+ * `adb shell pm grant de.mchllngr.devsettings[.debug] android.permission.WRITE_SECURE_SETTINGS`
+ */
 class MainActivity : AppCompatActivity() {
 
     private val devSettingsService by ServiceLocator::devSettingsService
@@ -45,12 +58,35 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        requestAddDevSettingsTileService()
+    }
+
     private fun setDevSettingsEnabled(enabled: Boolean) {
         binding.devSettings.setColorFilter(
             ContextCompat.getColor(
                 this,
                 if (enabled) R.color.colorPrimary else R.color.darker_gray
             )
+        )
+    }
+
+    private fun requestAddDevSettingsTileService() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+
+        val statusBarManager: StatusBarManager = getSystemService(StatusBarManager::class.java) ?: return
+
+        statusBarManager.requestAddTileService(
+            ComponentName(
+                this,
+                DevSettingsTileService::class.java
+            ),
+            getString(R.string.dev_settings_tile_label),
+            Icon.createWithResource(this, R.drawable.ic_developer_mode_white_24dp),
+            { /* do nothing */ },
+            { /* do nothing */ }
         )
     }
 }
