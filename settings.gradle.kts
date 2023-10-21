@@ -17,3 +17,9 @@ dependencyResolutionManagement {
 rootProject.name = "AndroidDevSettings"
 
 include(":app")
+
+buildCache {
+    local {
+        directory = File(rootDir, "build/build-cache")
+    }
+}
