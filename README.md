@@ -7,6 +7,10 @@ Note that this app requires you to **manually grant permission** to allow the ap
 
 Inspired by: https://github.com/nickbutcher/AnimatorDurationTile
 
+## App Icons
+
+This project used https://icon.kitchen/ to generate its icons.
+
 # License
 
 ```

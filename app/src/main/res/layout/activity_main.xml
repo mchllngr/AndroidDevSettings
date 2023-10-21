@@ -36,6 +36,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar"
-        app:srcCompat="@drawable/ic_developer_mode_white_24dp" />
+        app:srcCompat="@drawable/ic_adb_white_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
