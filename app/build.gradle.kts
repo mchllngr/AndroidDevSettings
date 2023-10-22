@@ -1,8 +1,13 @@
+import java.io.ByteArrayOutputStream
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
+
+val gitCommitCount = 100 + "git rev-list --count HEAD".runCommand().toInt()
+val gitCommitId = "git rev-parse --short HEAD".runCommand()
 
 android {
     namespace = "de.mchllngr.devsettings"
@@ -12,8 +17,8 @@ android {
         applicationId = "de.mchllngr.devsettings"
         minSdk = 28
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = gitCommitCount
+        versionName = "2.0.0-$gitCommitId"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -64,4 +69,16 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
+}
+
+fun String.runCommand(currentWorkingDir: File = file("./")): String {
+    val byteArray = ByteArrayOutputStream().use { byteOut ->
+        project.exec {
+            workingDir = currentWorkingDir
+            commandLine = this@runCommand.split("\\s".toRegex())
+            standardOutput = byteOut
+        }
+        return@use byteOut.toByteArray()
+    }
+    return String(byteArray).trim()
 }
