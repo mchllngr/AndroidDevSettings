@@ -7,9 +7,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
-
 val gitCommitCount = 100 + "git rev-list --count HEAD".runCommand().toInt()
 val gitCommitId = "git rev-parse --short HEAD".runCommand()
+val gitLatestVersionTag = "git describe --tags --match=v[0-9].[0-9].[0-9] HEAD".runCommand()
+val appVersionName = Regex("([0-9].[0-9].[0-9])").find(gitLatestVersionTag)?.value ?: error("no version found in tag '$gitLatestVersionTag'")
+
 val keystoreProperties = Properties().apply {
     runCatching {
         load(FileInputStream(File(rootProject.rootDir, "keystore.properties")))
@@ -25,7 +27,7 @@ android {
         minSdk = 28
         targetSdk = 34
         versionCode = gitCommitCount
-        versionName = "2.0.0-$gitCommitId"
+        versionName = "$appVersionName-$gitCommitId"
 
         vectorDrawables {
             useSupportLibrary = true

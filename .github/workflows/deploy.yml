@@ -12,7 +12,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # Full git history is needed to get a proper list of changed files within 'super-linter'
+          # and to dynamically determine the versionName from tags
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
@@ -49,7 +51,7 @@ jobs:
           KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_ALIAS_PASSPHRASE }}
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease
+        run: ./gradlew clean assembleRelease --no-daemon
 
       - name: Upload outputs artifact
         uses: actions/upload-artifact@v3
