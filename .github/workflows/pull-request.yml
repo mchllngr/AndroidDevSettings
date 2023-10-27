@@ -30,6 +30,7 @@ jobs:
         with:
           # Full git history is needed to dynamically determine the versionName from tags
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
