@@ -51,7 +51,7 @@ jobs:
           KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_ALIAS_PASSPHRASE }}
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease
+        run: ./gradlew clean assembleRelease --no-daemon
 
       - name: Upload outputs artifact
         uses: actions/upload-artifact@v3

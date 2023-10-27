@@ -50,7 +50,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew clean assembleDebug --no-daemon
 
       - name: Upload outputs artifact
         uses: actions/upload-artifact@v3
