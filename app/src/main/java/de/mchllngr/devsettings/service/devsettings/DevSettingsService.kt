@@ -120,9 +120,11 @@ class DevSettingsService : DefaultLifecycleObserver {
 
     @Throws(SecurityException::class)
     private fun setStayAwakeEnabled(enabled: Boolean) {
-        val value =
-            if (enabled) BatteryManager.BATTERY_PLUGGED_AC or BatteryManager.BATTERY_PLUGGED_USB or BatteryManager.BATTERY_PLUGGED_WIRELESS
-            else 0
+        val value = if (enabled) {
+            BatteryManager.BATTERY_PLUGGED_AC or BatteryManager.BATTERY_PLUGGED_USB or BatteryManager.BATTERY_PLUGGED_WIRELESS
+        } else {
+            0
+        }
         putSetting(Settings.Global.STAY_ON_WHILE_PLUGGED_IN, value)
     }
 
@@ -165,6 +167,6 @@ class DevSettingsService : DefaultLifecycleObserver {
 
     companion object {
 
-        private const val KEY_LOG = "DevSettings"
+        private const val KEY_LOG = "DevSettingsService"
     }
 }
