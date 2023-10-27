@@ -11,8 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Full git history is needed to get a proper list of changed files within 'super-linter'
-          fetch-tags: true # Tags are needed to dynamically determine the versionName
+          # Full git history is needed to get a proper list of changed files within 'super-linter'
+          # and to dynamically determine the versionName from tags
+          fetch-depth: 0
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
