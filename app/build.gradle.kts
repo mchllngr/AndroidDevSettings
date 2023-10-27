@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
+
 val gitCommitCount = 100 + "git rev-list --count HEAD".runCommand().toInt()
 val gitCommitId = "git rev-parse --short HEAD".runCommand()
 val gitLatestVersionTag = "git describe --tags --match=v[0-9].[0-9].[0-9] HEAD".runCommand()
