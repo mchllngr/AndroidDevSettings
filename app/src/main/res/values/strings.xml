@@ -3,4 +3,8 @@
     <string name="app_name">DevSettings</string>
     <string name="open_developer_options">Open developer options</string>
 
+    <string name="dev_settings_tile_label">Developer Mode</string>
+    <string name="dev_settings_tile_on">On</string>
+    <string name="dev_settings_tile_off">Off</string>
+
 </resources>
