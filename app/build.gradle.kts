@@ -10,11 +10,11 @@ plugins {
 
 println("### 1: ${"git tag".runCommand()}")
 println("### 2: ${"git describe --tags HEAD".runCommand()}")
-println("### 3: ${"git describe --tags --match=\"v[0-9].[0-9].[0-9]\" HEAD".runCommand()}")
+println("### 3: ${"git describe --tags --match=v[0-9].[0-9].[0-9] HEAD".runCommand()}")
 
 val gitCommitCount = 100 + "git rev-list --count HEAD".runCommand().toInt()
 val gitCommitId = "git rev-parse --short HEAD".runCommand()
-val gitLatestVersionTag = "git describe --tags --match=\"v[0-9].[0-9].[0-9]\" HEAD".runCommand()
+val gitLatestVersionTag = "git describe --tags --match=v[0-9].[0-9].[0-9] HEAD".runCommand()
 val appVersionName = Regex("([0-9].[0-9].[0-9])").find(gitLatestVersionTag)?.value ?: error("no version found in tag '$gitLatestVersionTag'")
 
 println("### gitLatestVersionTag: $gitLatestVersionTag")
