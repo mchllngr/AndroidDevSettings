@@ -1,4 +1,5 @@
 # AndroidDevSettings
+
 Simple application for enabling and disabling a complete set of developer settings with a single click on the quicktile.
 
 Note that this app requires you to **manually grant permission** to allow the app to alter the developer settings. To do this, issue the following `adb` command:
@@ -6,6 +7,19 @@ Note that this app requires you to **manually grant permission** to allow the ap
 `adb shell pm grant de.mchllngr.devsettings[.debug] android.permission.WRITE_SECURE_SETTINGS`
 
 Inspired by: https://github.com/nickbutcher/AnimatorDurationTile
+
+## Building
+
+### Release
+
+To build the release variant you need to create a `keystore.properties` file in the root project directory defining the following variables:
+
+```
+storeFile=/path/to/keystore.jks
+storePassword=STORE_PASSWORD
+keyAlias=KEY_ALIAS
+keyPassword=KEY_PASSWORD
+```
 
 ## App Icons
 

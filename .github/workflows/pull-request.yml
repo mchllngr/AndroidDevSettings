@@ -1,0 +1,51 @@
+name: Pull Request
+
+on:
+  pull_request:
+  merge_group:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within 'super-linter'
+          fetch-depth: 0
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Lint Code Base
+        uses: docker://github/super-linter:v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: main
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_KOTLIN: true
+          VALIDATE_YAML: true
+          VALIDATE_XML: true
+
+      - name: Setup JAVA 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Cache Gradle and wrapper
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload outputs artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: outputs
+          path: app/build/outputs/
+          retention-days: 3
