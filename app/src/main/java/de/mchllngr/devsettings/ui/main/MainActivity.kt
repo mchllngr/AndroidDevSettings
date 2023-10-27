@@ -1,4 +1,4 @@
-package de.mchllngr.devsettings
+package de.mchllngr.devsettings.ui.main
 
 import android.app.Activity
 import android.app.StatusBarManager
@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import de.mchllngr.devsettings.R
 import de.mchllngr.devsettings.databinding.ActivityMainBinding
 import de.mchllngr.devsettings.extension.flow.launchAndCollectIn
 import de.mchllngr.devsettings.service.devsettingstile.DevSettingsTileService
