@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 DevSettingsTileService::class.java
             ),
             getString(R.string.dev_settings_tile_label),
-            Icon.createWithResource(this, R.drawable.ic_developer_mode_white_24dp),
+            Icon.createWithResource(this, R.drawable.ic_adb_white_24dp),
             { /* do nothing */ },
             { /* do nothing */ }
         )

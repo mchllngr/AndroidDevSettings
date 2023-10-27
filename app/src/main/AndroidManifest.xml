@@ -13,7 +13,6 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App"
         tools:targetApi="31">
@@ -41,7 +40,7 @@
         <service
             android:name=".service.devsettingstile.DevSettingsTileService"
             android:exported="true"
-            android:icon="@drawable/ic_developer_mode_white_24dp"
+            android:icon="@drawable/ic_adb_white_24dp"
             android:label="@string/dev_settings_tile_label"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
 
