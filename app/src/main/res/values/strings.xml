@@ -1,19 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">DevSettings</string>
-    <string name="open_developer_options">Open developer options</string>
-
-    <string name="hover_screen_stay_awake">Stay awake</string>
-    <string name="hover_screen_show_tabs">Show tabs</string>
-    <string name="hover_screen_show_surface_updates">Show surface updates</string>
-    <string name="hover_screen_show_layout_bounds">Show layout bounds</string>
-    <string name="hover_screen_force_rtl_layout_direction">Force RTL layout direction</string>
-    <string name="hover_screen_animation_scale">Animation scale</string>
-    <string name="hover_screen_strict_mode_enabled">Strict mode enabled</string>
-    <string name="hover_screen_profile_gpu_rendering">Profile GPU rendering</string>
-    <string name="hover_screen_dont_keep_activities">Don\'t keep activities</string>
-    <string name="hover_screen_force_activities_to_be_resizable">Force activities to be resizable</string>
-    <string name="hover_screen_open_dev_settings">@string/open_developer_options</string>
 
 </resources>
