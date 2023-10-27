@@ -1,6 +1,8 @@
 package de.mchllngr.devsettings
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.mchllngr.devsettings.databinding.ActivityMainBinding
@@ -9,6 +11,7 @@ import de.mchllngr.devsettings.servicelocator.ServiceLocator
 
 class MainActivity : AppCompatActivity() {
 
+    private val devSettingsService by ServiceLocator::devSettingsService
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,8 +19,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
-        val devSettingsService = ServiceLocator.devSettingsService
         lifecycle.addObserver(devSettingsService)
 
         binding.devSettings.setOnClickListener {
@@ -27,6 +30,19 @@ class MainActivity : AppCompatActivity() {
         devSettingsService.enabled.launchAndCollectIn(this) {
             setDevSettingsEnabled(it)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.developer_options) {
+            devSettingsService.openDeveloperOptions(this)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setDevSettingsEnabled(enabled: Boolean) {
