@@ -1,4 +1,6 @@
 import java.io.ByteArrayOutputStream
+import java.io.FileInputStream
+import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -8,6 +10,11 @@ plugins {
 
 val gitCommitCount = 100 + "git rev-list --count HEAD".runCommand().toInt()
 val gitCommitId = "git rev-parse --short HEAD".runCommand()
+val keystoreProperties = Properties().apply {
+    runCatching {
+        load(FileInputStream(File(rootProject.rootDir, "keystore.properties")))
+    }
+}
 
 android {
     namespace = "de.mchllngr.devsettings"
@@ -25,12 +32,22 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(keystoreProperties.getProperty("storeFile") ?: "KEYSTORE_PROPERTIES_NOT_PROVIDED")
+            storePassword = keystoreProperties.getProperty("storePassword")
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             isDebuggable = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
         debug {
             isMinifyEnabled = false
