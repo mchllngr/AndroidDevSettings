@@ -1,3 +1,4 @@
+---
 name: Deploy
 
 on:
@@ -27,7 +28,7 @@ jobs:
           VALIDATE_YAML: true
           VALIDATE_XML: true
 
-      - name: Setup JAVA 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -58,6 +59,7 @@ jobs:
         with:
           name: outputs
           path: app/build/outputs/
+          retention-days: 3
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1

@@ -1,3 +1,4 @@
+---
 name: Pull Request
 
 on:
@@ -35,7 +36,7 @@ jobs:
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Setup JAVA 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -51,6 +52,18 @@ jobs:
 
       - name: Build Debug APK
         run: ./gradlew clean assembleDebug --no-daemon
+
+      - name: Prepare keystore.properties
+        run: ./.github/scripts/prepare-keystore-properties.sh
+        env:
+          KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+          KEYSTORE_ENCRYPTION_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_ENCRYPTION_PASSPHRASE }}
+          KEYSTORE_STORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_STORE_PASSPHRASE }}
+          KEYSTORE_ALIAS: ${{ secrets.RELEASE_KEYSTORE_ALIAS }}
+          KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_ALIAS_PASSPHRASE }}
+
+      - name: Build Release APK
+        run: ./gradlew clean assembleRelease --no-daemon
 
       - name: Upload outputs artifact
         uses: actions/upload-artifact@v4
