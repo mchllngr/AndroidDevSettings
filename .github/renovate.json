@@ -4,7 +4,7 @@
     "config:base",
     ":rebaseStalePrs"
   ],
-  "dependencyDashboard": true,
+  "dependencyDashboard": false,
   "assignees": [
     "mchllngr"
   ],
