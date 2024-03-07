@@ -1,6 +1,6 @@
 [versions]
 agp = "8.3.0"
-kotlin-android = "1.9.22"
+kotlin-android = "1.9.23"
 kotlin-android-coroutines = "1.8.0"
 core-ktx = "1.12.0"
 lifecycle-runtime-ktx = "2.7.0"
