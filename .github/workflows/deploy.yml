@@ -18,7 +18,7 @@ jobs:
           fetch-tags: true
 
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v2
+        uses: gradle/wrapper-validation-action@v3
 
       - name: Lint Code Base
         uses: docker://github/super-linter:v5
