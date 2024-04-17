@@ -2,7 +2,7 @@
 agp = "8.3.2"
 kotlin-android = "1.9.23"
 kotlin-android-coroutines = "1.8.0"
-core-ktx = "1.12.0"
+core-ktx = "1.13.0"
 lifecycle-runtime-ktx = "2.7.0"
 appcompat = "1.6.1"
 material = "1.11.0"
