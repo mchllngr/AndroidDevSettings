@@ -329,5 +329,6 @@ ij_kotlin_wrap_expression_body_functions = 0
 ij_kotlin_wrap_first_method_in_call_chain = false
 ktlint_standard_multiline-expression-wrapping = disabled
 ktlint_standard_trailing-comma-on-declaration-site = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled
 ktlint_standard_function-signature = disabled
 ktlint_standard_no-empty-first-line-in-class-body = disabled
