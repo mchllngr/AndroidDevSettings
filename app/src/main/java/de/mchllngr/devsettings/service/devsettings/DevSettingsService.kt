@@ -10,9 +10,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
 import de.mchllngr.devsettings.servicelocator.ServiceLocator
+import de.mchllngr.devsettings.work.disable.DisableDevSettingsWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.util.concurrent.TimeUnit
 
 /**
  * Class for enabling, disabling, getting and setting the DevSettings.
@@ -24,7 +29,8 @@ import kotlinx.coroutines.flow.StateFlow
 class DevSettingsService : DefaultLifecycleObserver {
 
     private val applicationContext by ServiceLocator::applicationContext
-    private val applicationContentReceiver: ContentResolver get() = applicationContext.contentResolver
+    private val applicationContentReceiver: ContentResolver by applicationContext::contentResolver
+    private val workManager by ServiceLocator::workManager
 
     private val _enabled = MutableStateFlow(false)
     val enabled: StateFlow<Boolean> = _enabled
@@ -40,13 +46,18 @@ class DevSettingsService : DefaultLifecycleObserver {
      *
      * Returns false if it fails e.g. when the system permission is not granted.
      */
-    fun setEnabled(enabled: Boolean): Boolean {
+    fun setEnabled(
+        enabled: Boolean,
+        scheduleAutomaticDisable: Boolean = true
+    ): Boolean {
         try {
             if (enabled) {
                 setDefaultEnabledSettings()
+                if (scheduleAutomaticDisable) scheduleAutomaticDisable()
                 _enabled.value = true
             } else {
                 setDefaultDisabledSettings()
+                cancelAutomaticDisable()
                 _enabled.value = false
             }
             return true
@@ -165,8 +176,30 @@ class DevSettingsService : DefaultLifecycleObserver {
     @Throws(SettingNotFoundException::class)
     private fun getSetting(settingsName: String) = Settings.Global.getFloat(applicationContentReceiver, settingsName)
 
+    private fun scheduleAutomaticDisable() {
+        val request = OneTimeWorkRequestBuilder<DisableDevSettingsWorker>()
+            .setInitialDelay(HOURS_BEFORE_AUTOMATIC_DISABLE, TimeUnit.HOURS)
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiresDeviceIdle(true)
+                    .build()
+            )
+            .build()
+
+        workManager.enqueueUniqueWork(
+            DisableDevSettingsWorker.WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            request
+        )
+    }
+
+    private fun cancelAutomaticDisable() {
+        workManager.cancelUniqueWork(DisableDevSettingsWorker.WORK_NAME)
+    }
+
     companion object {
 
         private const val KEY_LOG = "DevSettingsService"
+        private const val HOURS_BEFORE_AUTOMATIC_DISABLE = 12L
     }
 }

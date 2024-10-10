@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.material)
     implementation(libs.constraintlayout)
+    implementation(libs.work)
 }
 
 fun String.runCommand(currentWorkingDir: File = file("./")): String {

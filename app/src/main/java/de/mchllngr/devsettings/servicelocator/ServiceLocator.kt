@@ -1,6 +1,7 @@
 package de.mchllngr.devsettings.servicelocator
 
 import android.content.Context
+import androidx.work.WorkManager
 import de.mchllngr.devsettings.service.devsettings.DevSettingsService
 
 /**
@@ -11,4 +12,6 @@ object ServiceLocator {
     lateinit var applicationContext: Context
 
     val devSettingsService by lazy { DevSettingsService() }
+
+    val workManager by lazy { WorkManager.getInstance(applicationContext) }
 }
