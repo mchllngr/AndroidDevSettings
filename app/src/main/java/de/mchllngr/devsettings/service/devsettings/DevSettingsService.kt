@@ -184,8 +184,7 @@ class DevSettingsService : DefaultLifecycleObserver {
                     .Builder()
                     .setRequiresDeviceIdle(true)
                     .build()
-            )
-            .build()
+            ).build()
 
         workManager.enqueueUniqueWork(
             DisableDevSettingsWorker.WORK_NAME,
