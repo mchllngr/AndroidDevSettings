@@ -180,7 +180,8 @@ class DevSettingsService : DefaultLifecycleObserver {
         val request = OneTimeWorkRequestBuilder<DisableDevSettingsWorker>()
             .setInitialDelay(HOURS_BEFORE_AUTOMATIC_DISABLE, TimeUnit.HOURS)
             .setConstraints(
-                Constraints.Builder()
+                Constraints
+                    .Builder()
                     .setRequiresDeviceIdle(true)
                     .build()
             )
