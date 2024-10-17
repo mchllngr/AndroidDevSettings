@@ -28,10 +28,6 @@ android {
         targetSdk = 35
         versionCode = gitCommitCount
         versionName = "$appVersionName-$gitCommitId"
-
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     signingConfigs {
