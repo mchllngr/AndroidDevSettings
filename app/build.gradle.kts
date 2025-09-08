@@ -20,12 +20,12 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "de.mchllngr.devsettings"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "de.mchllngr.devsettings"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
         versionCode = gitCommitCount
         versionName = "$appVersionName-$gitCommitId"
     }
