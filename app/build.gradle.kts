@@ -91,9 +91,13 @@ dependencies {
 }
 
 fun String.runCommand(currentWorkingDir: File = file("./")): String {
-    val byteArray = providers.exec {
-        workingDir = currentWorkingDir
-        commandLine(this@runCommand.split("\\s".toRegex()))
-    }.standardOutput.asText.get().toByteArray()
+    val byteArray = providers
+        .exec {
+            workingDir = currentWorkingDir
+            commandLine(this@runCommand.split("\\s".toRegex()))
+        }.standardOutput
+        .asText
+        .get()
+        .toByteArray()
     return String(byteArray).trim()
 }
