@@ -1,4 +1,4 @@
-import java.io.ByteArrayOutputStream
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -66,8 +66,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-    kotlinOptions {
-        jvmTarget = "21"
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+        }
     }
 
     packaging {
@@ -89,13 +91,9 @@ dependencies {
 }
 
 fun String.runCommand(currentWorkingDir: File = file("./")): String {
-    val byteArray = ByteArrayOutputStream().use { byteOut ->
-        project.exec {
-            workingDir = currentWorkingDir
-            commandLine = this@runCommand.split("\\s".toRegex())
-            standardOutput = byteOut
-        }
-        return@use byteOut.toByteArray()
-    }
+    val byteArray = providers.exec {
+        workingDir = currentWorkingDir
+        commandLine(this@runCommand.split("\\s".toRegex()))
+    }.standardOutput.asText.get().toByteArray()
     return String(byteArray).trim()
 }
