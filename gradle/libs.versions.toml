@@ -8,7 +8,7 @@ appcompat = "1.7.1"
 activity = "1.11.0"
 material = "1.13.0"
 constraintlayout = "2.2.1"
-work = "2.10.5"
+work = "2.11.0"
 
 [libraries]
 kotlin-android-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlin-android-coroutines" }
