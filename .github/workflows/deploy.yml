@@ -55,7 +55,7 @@ jobs:
         run: ./gradlew clean assembleRelease --no-daemon
 
       - name: Upload outputs artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: outputs
           path: app/build/outputs/
