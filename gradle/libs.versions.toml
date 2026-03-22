@@ -1,6 +1,5 @@
 [versions]
 agp = "9.1.0"
-kotlin-android = "2.3.20"
 kotlin-android-coroutines = "1.10.2"
 core-ktx = "1.18.0"
 lifecycle-runtime-ktx = "2.10.0"
@@ -22,6 +21,5 @@ work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 
 [bundles]

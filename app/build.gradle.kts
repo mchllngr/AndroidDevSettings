@@ -4,7 +4,6 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 }
 
 val gitCommitCount = 100 + "git rev-list --count HEAD".runCommand().toInt()
