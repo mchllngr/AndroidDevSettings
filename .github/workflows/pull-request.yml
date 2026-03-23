@@ -34,7 +34,7 @@ jobs:
           fetch-tags: true
 
       - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@v5
+        uses: gradle/actions/wrapper-validation@v6
 
       - name: Setup Java
         uses: actions/setup-java@v5
